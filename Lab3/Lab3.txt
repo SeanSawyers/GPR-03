@@ -77,6 +77,7 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
 }
 
 /*// Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns whether or not a certain pixel is within a circle
 bool hitSphere(in vec4 center, in float radius,
                in vec4 rayDirection, in vec4 rayOrigin)
 {
@@ -89,6 +90,7 @@ bool hitSphere(in vec4 center, in float radius,
 }
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns a vec4 that changes the color of a pixel depending on if they are in a circle or not
 vec4 rayColor(in vec4 rayDirection, in vec4 rayOrigin)
 {
     vec4 center = vec4(0.0, 0.0, -1.0, 0.0);
@@ -108,18 +110,21 @@ vec4 at(in float t, in vec4 rayDirection, in vec4 rayOrigin)
 }
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns the dot product of the given vector
 float getLengthSquared(in vec4 v)
 {
     return getDot(v);
 }
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns the square root of the dot product of the given vector
 float getLength(in vec4 v)
 {
     return sqrt(getLengthSquared(v));
 }
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns the vector divided by the square root of the dot product of the given vector
 vec4 unitVector(in vec4 v)
 {
     return v / length(v);
@@ -145,6 +150,7 @@ float hitSphere (in vec4 center, in float radius,
 }*/
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns whether or not a certain pixel is within a circle
 float hitSphere (in vec4 center, in float radius,
                  in vec4 rayDirection, in vec4 rayOrigin)
 {
@@ -164,6 +170,7 @@ float hitSphere (in vec4 center, in float radius,
 }
 
 // Modified from Ray Tracing in One Weekend by Peter Shirley
+// Returns a vec4 that changes the color of a pixel depending on if they are in a circle or not
 vec4 rayColor(in vec4 rayDirection, in vec4 rayOrigin)
 {
     vec4 center = vec4(0.0, 0.0, -1.0, 0.0);
