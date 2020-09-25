@@ -72,7 +72,7 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
     return rayDirection;
 }
 
-// Modified from Ray Tracing in One Weekend by Peter Shirley
+/*// Modified from Ray Tracing in One Weekend by Peter Shirley
 bool hitSphere(in vec4 center, in float radius,
                in vec4 rayDirection, in vec4 rayOrigin)
 {
@@ -95,6 +95,59 @@ vec4 rayColor(in vec4 rayDirection, in vec4 rayOrigin)
     vec4 unitDirection = rayDirection / (sqrt(getDot(rayDirection)));
     float t = 0.5 * (unitDirection.y + 1.0);
     return (1.0 - t) * vec4(1.0, 1.0, 1.0, 1.0) + t * vec4(0.5, 0.7, 1.0, 1.0);
+}*/
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+vec4 at(in float t, in vec4 rayDirection, in vec4 rayOrigin)
+{
+    return rayOrigin + t * rayDirection;
+}
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+float length(in vec4 x)
+{
+    return sqrt(getDot(x));
+}
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+vec4 unitVector(in vec4 v)
+{
+    return v / length(v);
+}
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+float hitSphere (in vec4 center, in float radius,
+                 in vec4 rayDirection, in vec4 rayOrigin)
+{
+    vec4 oc = rayOrigin - center;
+    float a = getDot(rayDirection);
+    float b = 2.0 * dot(oc, rayDirection);
+    float c = getDot(oc) - (radius*radius);
+    float discriminant = (b * b) - (4.0 * a * c); 
+    if (discriminant < 0.0)
+    {
+        return -1.0;
+    }
+    else
+    {
+        return (-b - sqrt(discriminant)) / (2.0 * a);
+    }
+}
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+vec4 rayColor(in vec4 rayDirection, in vec4 rayOrigin)
+{
+    vec4 center = vec4(0.0, 0.0, -1.0, 0.0);
+    float t = hitSphere(center, 0.5, rayDirection, rayOrigin);
+    if (t > 0.0)
+    {
+        vec4 N = unitVector(at(t, rayDirection, rayOrigin)
+                            - vec4(0.0, 0.0, -1.0, 0.0));
+    }
+    vec4 unitDirection = rayDirection / (sqrt(getDot(rayDirection)));
+    t = 0.5 * (unitDirection.y + 1.0);
+    return (1.0 - t) * vec4(1.0, 1.0, 1.0, 1.0)+ t
+        * vec4(0.5, 0.7, 1.0, 1.0);
 }
 
 // mainImage: process the current pixel (exactly one call per pixel)
