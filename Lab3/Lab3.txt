@@ -1,3 +1,7 @@
+// Sean Sawyers-Abbott
+// Most of this code was modified from Ray Tracing in One Weekend by Peter Shirley
+// or was supplied by Daniel Buckstein
+
 // Returns the dot procut of a 2 length vector
 float getDot(in vec2 v)
 {
