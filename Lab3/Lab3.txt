@@ -1,3 +1,21 @@
+// Returns the dot procut of a 2 length vector
+float getDot(in vec2 x)
+{
+    return dot(x, x);
+}
+
+// Returns the dot procut of a 3 length vector
+float getDot(in vec3 x)
+{
+    return dot(x, x);
+}
+
+// Returns the dot procut of a 4 length vector
+float getDot(in vec4 x)
+{
+    return dot(x, x);
+}
+
 // calcViewport: calculate the viewing plane (viewport) coordinate
 //    viewport:       output viewing plane coordinate
 //    ndc:            output normalized device coordinate
@@ -54,6 +72,31 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
     return rayDirection;
 }
 
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+bool hitSphere(in vec4 center, in float radius,
+               in vec4 rayDirection, in vec4 rayOrigin)
+{
+    vec4 oc = rayOrigin - center;
+    float a = getDot(rayDirection);
+    float b = 2.0 * dot(oc, rayDirection);
+    float c = getDot(oc) - (radius*radius);
+    float discriminant = (b * b) - (4.0 * a * c);
+    return (discriminant > 0.0);
+}
+
+// Modified from Ray Tracing in One Weekend by Peter Shirley
+vec4 rayColor(in vec4 rayDirection, in vec4 rayOrigin)
+{
+    vec4 center = vec4(0.0, 0.0, -1.0, 0.0);
+    if (hitSphere(center, 0.5, rayDirection, rayOrigin))
+    {
+        return vec4(1.0, 0.0, 0.0, 1.0);
+    }
+    vec4 unitDirection = rayDirection / (sqrt(getDot(rayDirection)));
+    float t = 0.5 * (unitDirection.y + 1.0);
+    return (1.0 - t) * vec4(1.0, 1.0, 1.0, 1.0) + t * vec4(0.5, 0.7, 1.0, 1.0);
+}
+
 // mainImage: process the current pixel (exactly one call per pixel)
 //    fragColor: output final color for current pixel
 //    fragCoord: input location of current pixel in image (in pixels)
@@ -74,7 +117,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
             viewport, focalLength);
 
     // color
-    fragColor = calcColor(rayDirection, rayOrigin);
+    //fragColor = calcColor(rayDirection, rayOrigin);
+    fragColor = rayColor(rayDirection, rayOrigin);
 
     // TEST COLOR:
     //  -> what do the other things calculated above look like?
