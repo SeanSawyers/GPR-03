@@ -61,30 +61,47 @@ void calcRay(out vec4 rayDirection, out vec4 rayOrigin,
     rayDirection = asOffset(viewport - eyePosition);
 }
 
+// sSphere: holds the information of the sphere
+//    center: center point of the sphere
+//    radius: radius length of the sphere
 struct sSphere
 {
     vec4 center;
     float radius;
 };
-    
-/*bool initSphere(out sSphere sphere, in vec3 center, in float radius)
-{
-    sphere.center = asPoint(center);
-    if (radius > 0.0)
-    {
-        sphere.radius = radius;
-        return true;
-    }
-    sphere.radius = 1.0;
-    return false;
-}*/
 
+// initSphere: initializes an sSphere struct
+//    center: center point to put in the sSphere
+//    radius: radius length to put in the sSphere
 void initSphere(out sSphere sphere, in vec3 center, in float radius)
 {
     sphere.center = asPoint(center);
     sphere.radius = radius;
 }
 
+// pointLight: holds the information of the light source
+//    center: the location of the light source
+//    color: the color of the light source
+//    intensity: the strength of the light
+struct pointLight
+{
+    vec4 center;
+    vec4 color;
+    float intensity;
+};
+    
+// initPointLight: initializes a pointLight struct
+//    center: the location of the light source to put in the pointLight
+//    color: the color of the light source to put in the pointLight
+//    intensity: the strength of the light to put in the pointLight
+void initPointLight(out pointLight light, in vec3 center, in vec4 color, in float intensity)
+{
+    light.center = asPoint(center);
+    light.color = color;
+    light.intensity = intensity;
+}
+
+// lenSq: returns the dot product of a single vector by itself
 float lenSq(in vec2 x)
 {
     return dot(x, x);
@@ -102,6 +119,9 @@ vec4 calcColor(in vec4 rayDirection, in vec4 rayOrigin)
     // SCENE
 	sSphere sphere;
     initSphere(sphere, vec3(0.0, 0.0, -4.0), 0.5);
+    pointLight light;
+    initPointLight(light, vec3(-10.0, -10.0, -10.0),
+                   vec4(0.5, 0.75, 0.0, 1.0), 0.5);
     
     // TEST
     vec3 dp;
